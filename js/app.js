@@ -268,6 +268,9 @@ function handleAddWidgetSubmit(e) {
     if (!wasEditMode) {
         grid.enableMove(false);
         grid.enableResize(false);
+    } else {
+        // If already in edit mode, ensure drag handles are updated
+        updateEditModeStyles();
     }
     
     hideAddWidgetModal();
@@ -300,25 +303,6 @@ function addWidget(id, width, height, type, x = null, y = null) {
  * Create HTML content for widget
  */
 function createWidgetContent(id, type) {
-    let bodyContent = '';
-    
-    switch (type) {
-        case 'text':
-            bodyContent = `<div class="widget-text">Текстовое содержимое для ${id}</div>`;
-            break;
-        case 'chart':
-            bodyContent = `<div class="widget-chart"><canvas id="chart-${id}"></canvas></div>`;
-            break;
-        case 'image':
-            bodyContent = `<div class="widget-image"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='150'%3E%3Crect fill='%23ddd' width='200' height='150'/%3E%3Ctext fill='%23999' x='50%25' y='50%25' text-anchor='middle' dy='.3em'%3EImage%3C/text%3E%3C/svg%3E" alt="Placeholder"></div>`;
-            break;
-        case 'custom':
-            bodyContent = `<div class="widget-custom"><p>Произвольный контент</p></div>`;
-            break;
-        default:
-            bodyContent = `<div class="widget-text">Содержимое для ${id}</div>`;
-    }
-    
     return `
         <div class="grid-stack-item-content">
             <div class="widget-header">
@@ -332,8 +316,7 @@ function createWidgetContent(id, type) {
                     </button>
                 </div>
             </div>
-            <div class="widget-body micro-grid">
-                ${bodyContent}
+            <div class="widget-body">
                 <div class="widget-status-border status-green"></div>
             </div>
         </div>

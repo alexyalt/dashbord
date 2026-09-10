@@ -186,7 +186,7 @@ body {
     background-color: #34495e;
     color: white;
     border-radius: 5px;
-    padding: 10px;
+    padding: 0;
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -194,12 +194,19 @@ body {
 }
 
 .grid-stack-item-content .widget-header {
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
-    padding-bottom: 5px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.grid-stack-item-content .widget-body {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+    padding: 10px;
 }
 
 .grid-stack-item-content .widget-title {
@@ -232,20 +239,6 @@ body {
 
 .widget-action-btn.delete-btn:hover {
     background-color: var(--danger-color);
-}
-
-.grid-stack-item-content .widget-body {
-    flex: 1;
-    overflow: auto;
-    position: relative;
-}
-
-/* Widget Internal Grid (Micro-grid) */
-.widget-body.micro-grid {
-    background-image: 
-        linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-    background-size: 2px 2px;
 }
 
 /* Widget Borders */
