@@ -1,0 +1,425 @@
+/* ============================================
+   Kiosk Dashboard - Main Styles
+   ============================================ */
+
+:root {
+    --grid-step: 10px;
+    --dashboard-width: 1920px;
+    --dashboard-height: 1080px;
+    --toolbar-height: 50px;
+    --primary-color: #3498db;
+    --success-color: #2ecc71;
+    --danger-color: #e74c3c;
+    --warning-color: #f39c12;
+    --dark-color: #2c3e50;
+    --light-color: #ecf0f1;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #1a1a1a;
+    overflow: auto;
+    min-height: 100vh;
+}
+
+/* ============================================
+   Toolbar Styles
+   ============================================ */
+
+#toolbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--toolbar-height);
+    background-color: var(--dark-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.toolbar-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.toolbar-btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: background-color 0.2s;
+}
+
+.toolbar-btn:hover {
+    background-color: #2980b9;
+}
+
+.toolbar-btn.active {
+    background-color: var(--success-color);
+}
+
+.toolbar-btn i {
+    font-size: 16px;
+}
+
+#grid-step {
+    padding: 5px 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: white;
+    cursor: pointer;
+}
+
+/* ============================================
+   Status Indicator
+   ============================================ */
+
+.status-indicator {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: transparent;
+}
+
+.status-indicator i {
+    font-size: 14px;
+}
+
+.status-green i {
+    color: var(--success-color);
+}
+
+.status-red i {
+    color: var(--danger-color);
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+#status-text {
+    color: white;
+    font-size: 14px;
+    margin-left: 5px;
+}
+
+/* ============================================
+   Dashboard Container (1920x1080)
+   ============================================ */
+
+#dashboard-wrapper {
+    margin-top: var(--toolbar-height);
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    min-height: calc(100vh - var(--toolbar-height));
+}
+
+#dashboard-container {
+    width: var(--dashboard-width);
+    height: var(--dashboard-height);
+    background-color: #2a2a2a;
+    position: relative;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    border: 5px solid transparent;
+    transition: border-color 0.3s;
+}
+
+/* Status Border for Dashboard */
+#dashboard-container.status-green {
+    border-color: var(--success-color);
+}
+
+#dashboard-container.status-red {
+    border-color: var(--danger-color);
+    animation: border-blink 2s infinite;
+}
+
+@keyframes border-blink {
+    0%, 100% { border-color: var(--danger-color); }
+    50% { border-color: transparent; }
+}
+
+/* ============================================
+   Grid Background (Edit Mode Only)
+   ============================================ */
+
+#dashboard-container.edit-mode {
+    background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+    background-size: var(--grid-step) var(--grid-step);
+}
+
+/* ============================================
+   Gridstack Customization
+   ============================================ */
+
+.grid-stack {
+    background: transparent;
+}
+
+.grid-stack-item-content {
+    background-color: #34495e;
+    color: white;
+    border-radius: 5px;
+    padding: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.grid-stack-item-content .widget-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.grid-stack-item-content .widget-title {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.grid-stack-item-content .widget-actions {
+    display: none;
+    gap: 5px;
+}
+
+.edit-mode .grid-stack-item-content .widget-actions {
+    display: flex;
+}
+
+.widget-action-btn {
+    background: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 2px 5px;
+    border-radius: 3px;
+    transition: background-color 0.2s;
+}
+
+.widget-action-btn:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.widget-action-btn.delete-btn:hover {
+    background-color: var(--danger-color);
+}
+
+.grid-stack-item-content .widget-body {
+    flex: 1;
+    overflow: auto;
+    position: relative;
+}
+
+/* Widget Internal Grid (Micro-grid) */
+.widget-body.micro-grid {
+    background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 2px 2px;
+}
+
+/* Widget Borders */
+.widget-border-solid {
+    border: 2px solid white;
+}
+
+.widget-border-dashed {
+    border: 2px dashed white;
+}
+
+.widget-border-dotted {
+    border: 2px dotted white;
+}
+
+/* Widget Status Indicators */
+.widget-status-border {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 3px solid transparent;
+    pointer-events: none;
+}
+
+.widget-status-border.status-green {
+    border-color: var(--success-color);
+}
+
+.widget-status-border.status-red {
+    border-color: var(--danger-color);
+    animation: border-blink 2s infinite;
+}
+
+/* ============================================
+   Edit Mode Controls Visibility
+   ============================================ */
+
+.grid-stack-item .ui-resizable-handle {
+    display: none;
+}
+
+.edit-mode .grid-stack-item .ui-resizable-handle {
+    display: block;
+}
+
+.grid-stack-item .grid-stack-item-content {
+    transition: box-shadow 0.2s;
+}
+
+.edit-mode .grid-stack-item.ui-draggable-dragging .grid-stack-item-content,
+.edit-mode .grid-stack-item.ui-resizable-resizing .grid-stack-item-content {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+/* ============================================
+   Modal Styles
+   ============================================ */
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+}
+
+.modal {
+    background-color: var(--dark-color);
+    color: white;
+    padding: 30px;
+    border-radius: 8px;
+    width: 400px;
+    max-width: 90%;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+}
+
+.modal h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: white;
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.btn-primary:hover {
+    background-color: #2980b9;
+}
+
+.btn-secondary {
+    background-color: #7f8c8d;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.btn-secondary:hover {
+    background-color: #95a5a6;
+}
+
+/* ============================================
+   Widget Content Types
+   ============================================ */
+
+.widget-text {
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+.widget-chart {
+    position: relative;
+    height: 100%;
+    min-height: 200px;
+}
+
+.widget-image img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.widget-custom {
+    font-size: 14px;
+}
+
+/* ============================================
+   Responsive Considerations
+   ============================================ */
+
+@media (max-width: 1920px) {
+    #dashboard-wrapper {
+        overflow-x: auto;
+    }
+}
