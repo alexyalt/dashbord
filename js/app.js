@@ -50,6 +50,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Try to load saved layout from localStorage
     loadLayoutFromStorage();
     
+    // Hide add widget button by default (only visible in edit mode)
+    elements.btnAddWidget.style.display = 'none';
+    
     console.log('Dashboard initialized successfully');
 });
 
@@ -167,6 +170,9 @@ function toggleEditMode() {
     elements.btnEditMode.innerHTML = AppState.isEditMode 
         ? '<i class="fas fa-check"></i> Готово' 
         : '<i class="fas fa-edit"></i> Редактирование';
+    
+    // Show/hide add widget button
+    elements.btnAddWidget.style.display = AppState.isEditMode ? 'inline-flex' : 'none';
     
     // Enable/disable gridstack interactions
     if (AppState.isEditMode) {
