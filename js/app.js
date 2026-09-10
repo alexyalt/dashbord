@@ -254,8 +254,21 @@ function handleAddWidgetSubmit(e) {
         return;
     }
     
+    // Temporarily enable edit mode if not already enabled
+    const wasEditMode = AppState.isEditMode;
+    if (!wasEditMode) {
+        grid.enableMove(true);
+        grid.enableResize(true);
+    }
+    
     // Add widget to grid
     addWidget(widgetId, width, height, type);
+    
+    // Restore previous edit mode state
+    if (!wasEditMode) {
+        grid.enableMove(false);
+        grid.enableResize(false);
+    }
     
     hideAddWidgetModal();
     console.log(`Widget added: ${widgetId} (${width}x${height})`);
