@@ -248,7 +248,7 @@ function handleAddWidgetSubmit(e) {
     }
     
     // Check if widget with this ID already exists
-    const existingWidget = grid.getNodes().find(n => n.id === widgetId);
+    const existingWidget = grid.engine.nodes.find(n => n.id === widgetId);
     if (existingWidget) {
         alert('Виджет с таким ID уже существует');
         return;
@@ -288,6 +288,9 @@ function addWidget(id, width, height, type, x = null, y = null) {
     };
     
     grid.addWidget(widgetNode);
+    
+    // Update edit mode styles to show drag handles
+    updateEditModeStyles();
     
     // Initialize widget-specific functionality
     initializeWidget(id, type);
@@ -412,7 +415,7 @@ function initChart(widgetId) {
 function deleteWidget(widgetId) {
     if (!confirm(`Удалить виджет "${widgetId}"?`)) return;
     
-    const node = grid.getNodes().find(n => n.id === widgetId);
+    const node = grid.engine.nodes.find(n => n.id === widgetId);
     if (node) {
         grid.removeWidget(node.el);
         
@@ -448,7 +451,7 @@ function saveLayoutToFile() {
             column: AppState.gridColumnCount,
             cellHeight: AppState.gridStep * 8
         },
-        widgets: grid.getNodes().map(node => ({
+        widgets: grid.engine.nodes.map(node => ({
             id: node.id,
             x: node.x,
             y: node.y,
@@ -538,6 +541,9 @@ function applyLayout(layoutData) {
             grid.addWidget(widgetNode);
             initializeWidget(widgetData.id, widgetData.type || 'text');
         });
+        
+        // Update edit mode styles after loading layout
+        updateEditModeStyles();
     }
     
     console.log(`Applied layout with ${layoutData.widgets ? layoutData.widgets.length : 0} widgets`);
